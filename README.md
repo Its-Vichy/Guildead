@@ -25,7 +25,7 @@ if __name__ == '__main__':
 -----
 
 - [X] **Proxy support**
-- [] **Gateway**
+- [ ] **Gateway**
 
 -----
 
