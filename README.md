@@ -17,14 +17,19 @@ from Guildead import Guilded, Exploit
 
 if __name__ == '__main__':
     guilded = Guilded(proxy= 'http://127.0.0.1:1337')
-    guilded.login('email', 'password')
+    success, response = guilded.login('email', 'password')
+
+    if success:
+        print('Login successful!')
+    else:
+        print(response)
 
     # send blank message
     guilded.send_message('channel_id', Exploit.blank_message())
 ```
 -----
 
-- [X] **Proxy support**
+- [X] **Proxy support - HTTP/S, SOCKS4/5**
 - [ ] **Gateway**
 
 -----
