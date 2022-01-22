@@ -16,7 +16,7 @@
 from Guildead import Guilded, Exploit
 
 if __name__ == '__main__':
-    guilded = Guilded()
+    guilded = Guilded(proxy= 'http://127.0.0.1:1337')
     guilded.login('email', 'password')
 
     # send blank message
