@@ -85,3 +85,7 @@ class Guilded:
             "isPrivate": isPrivate
         })
         return r.json()
+    
+    def delete_message(self, channel_id: str, message_id: str):
+        r = self.session.delete(f'{self.base_url}/channels/{channel_id}/messages/{message_id}')
+        return r.json()
