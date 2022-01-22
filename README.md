@@ -19,7 +19,7 @@ if __name__ == '__main__':
     guilded.login('email', 'password')
 
     # send blank message
-    guilded.send_message('channel_id', Exploit.blank_message(), isSilent=True, isPrivate=True, repliesTo=['reply_to_id'], confirmed=True)
+    guilded.send_message('channel_id', Exploit.blank_message())
 ```
 
 -----
