@@ -11,6 +11,19 @@
 
 -----
 
+```py
+from Guildead import Guilded, Exploit
+
+if __name__ == '__main__':
+    guilded = Guilded()
+    guilded.login('email', 'password')
+
+    # send blank message
+    guilded.send_message('channel_id', Exploit.blank_message(), isSilent=True, isPrivate=True, repliesTo=['reply_to_id'], confirmed=True)
+```
+
+-----
+
 <p align="center"> 
     <b>Informations</b><br>
     <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Its-Vichy/Guildead?style=social">
