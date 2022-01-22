@@ -89,3 +89,7 @@ class Guilded:
     def delete_message(self, channel_id: str, message_id: str):
         r = self.session.delete(f'{self.base_url}/channels/{channel_id}/messages/{message_id}')
         return r.json()
+    
+    def join_server(self, invite_code: str):
+        r = self.session.put(f'{self.base_url}/invites/{invite_code}')
+        return r.json()
