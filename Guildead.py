@@ -49,3 +49,39 @@ class Guilded:
             "isPrivate": isPrivate
         })
         return r.json()
+    
+    def edit_message(self, channel_id: str, message_id: str, message: str, confirmed: bool= False, isSilent: bool= False, isPrivate: bool= False, repliesTo: list= []):
+        r = self.session.put(f'{self.base_url}/channels/{channel_id}/messages/{message_id}', json={
+            "messageId": message_id,
+            "content": {
+                "object": "value",
+                "document": {
+                    "object": "document",
+                    "data": {},
+                    "nodes": [
+                        {
+                            "object": "block",
+                            "type": "paragraph",
+                            "data": {},
+                            "nodes": [
+                                {
+                                    "object": "text",
+                                    "leaves": [
+                                        {
+                                            "object": "leaf",
+                                            "text": message,
+                                            "marks": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "repliesToIds": repliesTo,
+            "confirmed": confirmed,
+            "isSilent": isSilent,
+            "isPrivate": isPrivate
+        })
+        return r.json()
