@@ -6,7 +6,8 @@
 
 -----
 
-- Guilded api wrapper in python
+- Guilded api wrapper written in python.
+- I have found "exploit" (guilded broken as fuck): `blank_message`
 
 -----
 
