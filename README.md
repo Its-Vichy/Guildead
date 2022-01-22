@@ -28,7 +28,7 @@ if __name__ == '__main__':
     guilded.send_message('channel_id', Exploit.blank_message())
     
     # send message and delete it
-    message_id = guilded.send_message('channel_id', 'message text')['id']
+    message_id = guilded.send_message('channel_id', 'message text')['message']['id']
     guilded.edit_message('channel_id', message_id, "new message text")
 ```
 -----
