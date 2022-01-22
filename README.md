@@ -22,6 +22,10 @@ if __name__ == '__main__':
     # send blank message
     guilded.send_message('channel_id', Exploit.blank_message())
 ```
+-----
+
+- [X] **Proxy support**
+- [] **Gateway**
 
 -----
 
