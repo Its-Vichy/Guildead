@@ -7,7 +7,7 @@ class Exploit:
 class Guilded:
     def __init__(self, proxy: str= None):
         self.base_url = "https://www.guilded.gg/api"
-        self.session = httpx.Client(proxies= {"http://": proxy, "https": proxy} if proxy else None)
+        self.session = httpx.Client(proxies= {"http://": proxy, "https://": proxy} if proxy else None)
 
     def login(self, email: str, password: str):
         r = self.session.post(f'{self.base_url}/login', json={'email': email, 'password': password})
