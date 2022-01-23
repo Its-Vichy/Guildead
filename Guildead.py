@@ -10,8 +10,16 @@ class Guilded:
         self.session = requests.Session()
         self.session.proxies = {"http": proxy, "https": proxy} if proxy else None
 
+        self.user = None
+
     def login(self, email: str, password: str):
         r = self.session.post(f'{self.base_url}/login', json={'email': email, 'password': password})
+        
+        try:
+            self.user= r.json()['user']
+        except:
+            pass
+
         return (False, {'error': 'Email or password is incorrect.'}) if 'Email or password is incorrect.' in r.text in r.text else (True, {'mid': r.cookies.get('guilded_mid'), 'hmac_signed_session': r.cookies.get('hmac_signed_session')})
     
     def login_from_token(self, token: str):
@@ -98,5 +106,20 @@ class Guilded:
         return r.json()
     
     def add_friend(self, ids: list):
-        r = self.session.post('https://www.guilded.gg/api/users/me/friendrequests', json={"friendUserIds": ids})
+        r = self.session.post(f'{self.base_url}/users/me/friendrequests', json={"friendUserIds": ids})
+        return r.json()
+    
+    def check_mail_verified(self):
+        r = self.session.get(f'{self.base_url}/users/me/verification')
+        return r.json()
+    
+    def get_server_info(self, invite_code: str):
+        r = self.session.get(f'{self.base_url}/content/route/metadata?route=/{invite_code}')
+        return r.json()
+
+    def join_team(self, invite_code: str):
+        team_id = self.get_server_info(invite_code)['metadata']['team']['id']
+        user_id = self.user['id']
+        
+        r = self.session.put(f'{self.base_url}/teams/{team_id}/members/{user_id}/join', json={'inviteId': None})
         return r.json()
