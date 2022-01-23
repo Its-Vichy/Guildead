@@ -96,3 +96,7 @@ class Guilded:
     def join_server(self, invite_code: str):
         r = self.session.put(f'{self.base_url}/invites/{invite_code}')
         return r.json()
+    
+    def add_friend(self, ids: list):
+        r = self.session.post('https://www.guilded.gg/api/users/me/friendrequests', json={"friendUserIds": ids})
+        return r.json()
