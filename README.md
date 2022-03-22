@@ -1,7 +1,7 @@
 <h1 align="center">Guildead</h1>
 
 <p align='center'>
-    <b>Guilded api wrapper written in python.</b><br>
+    <b>Guilded Rest api wrapper written in python3.</b><br>
     <br>
     <img src='https://media.discordapp.net/attachments/933087958288986123/934243026958692362/1200x600wa.png'>
 </p>
@@ -11,6 +11,10 @@
 - I have found "exploit" (guilded broken as fuck): `blank_message`
 
 -----
+
+```txt
+pip install Guildead
+```
 
 ```py
 from Guildead import Guilded, Exploit
@@ -35,7 +39,7 @@ if __name__ == '__main__':
 -----
 
 - [X] **Proxy support - HTTP/S, SOCKS4/5**
-- [ ] **Gateway**
+- [ ] **Gateway websocekt**
 
 -----
 
