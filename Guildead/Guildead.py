@@ -1,3 +1,5 @@
+# Lasted wrapper version: https://github.com/Its-Vichy/Guildead
+
 import requests, uuid, random, string
 
 class Exploit:
@@ -13,14 +15,14 @@ class Guilded:
         self.user = None
 
     def login(self, email: str, password: str):
-        r = self.session.post(f'{self.base_url}/login', json={'email': email, 'password': password})
+        r = self.session.post(f'{self.base_url}/login', json={'email': email, 'password': password, 'getMe': True})
         
         try:
             self.user= r.json()['user']
         except:
             pass
 
-        return (False, {'error': 'Email or password is incorrect.'}) if 'Email or password is incorrect.' in r.text in r.text else (True, {'mid': r.cookies.get('guilded_mid'), 'hmac_signed_session': r.cookies.get('hmac_signed_session')})
+        return (False, {'error': 'Email or password is incorrect.'}) if 'Email or password is incorrect.' in r.text or r.cookies.get('guilded_mid') == None else (True, {'mid': r.cookies.get('guilded_mid'), 'hmac_signed_session': r.cookies.get('hmac_signed_session')})
     
     def login_from_token(self, token: str):
         self.session.cookies.set('hmac_signed_session', token)
@@ -123,3 +125,57 @@ class Guilded:
         
         r = self.session.put(f'{self.base_url}/teams/{team_id}/members/{user_id}/join', json={'inviteId': None})
         return r.json()
+
+    def set_activity(self, number: int = 1):
+        # online, idle, dnd
+
+        r = self.session.post(f'{self.base_url}/users/me/presence', json={'status': number})
+        return r.json()
+    
+    def ping(self):
+        r = self.session.put(f'{self.base_url}/users/me/ping', json={})
+        return r.json()
+    
+    def set_status(self, text: str, customReactionId: int = 90002573):
+        r = self.session.post(f'{self.base_url}/users/me/status', json={
+            "content": {
+                "object": "value",
+                "document": {
+                    "object": "document",
+                    "data": {},
+                    "nodes": [
+                        {
+                            "object": "block",
+                            "type": "paragraph",
+                            "data": {},
+                            "nodes": [
+                                {
+                                    "object": "text",
+                                    "leaves": [
+                                        {
+                                            "object": "leaf",
+                                            "text": text,
+                                            "marks": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "customReactionId": customReactionId,
+            "expireInMs": 0
+        })
+        return r.json()
+    
+    def set_bio(self, text: str):
+        user_id = self.user['id']
+
+        r = self.session.put(f'{self.base_url}/users/{user_id}/profilev2', json={"userId": user_id,"aboutInfo":{"tagLine": text}})
+        return r.json()
+
+    def add_pfp(self, url):
+        #url = self.session.post('https://media.guilded.gg/media/upload?dynamicMediaTypeId=UserAvatar', files={'file': open(image_path, 'rb')}, headers={'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary20al5Fdtd69OqIRT'}).json()
+        
+        return self.session.post(f'{self.base_url}/users/me/profile/images', json={'imageUrl': url})
