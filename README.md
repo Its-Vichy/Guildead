@@ -39,7 +39,7 @@ if __name__ == '__main__':
 -----
 
 - [X] **Proxy support - HTTP/S, SOCKS4/5**
-- [ ] **Gateway websocekt**
+- [ ] **Gateway websocket**
 
 -----
 
