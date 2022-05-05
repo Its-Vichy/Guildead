@@ -12,7 +12,7 @@ class Guilded:
         self.session = requests.Session()
         self.session.proxies = {"http": proxy, "https": proxy} if proxy else None
 
-        self.user = None
+        self.user = {}
 
     def login(self, email: str, password: str):
         r = self.session.post(f'{self.base_url}/login', json={'email': email, 'password': password, 'getMe': True})
@@ -24,8 +24,17 @@ class Guilded:
 
         return (False, {'error': 'Email or password is incorrect.'}) if 'Email or password is incorrect.' in r.text or r.cookies.get('guilded_mid') == None else (True, {'mid': r.cookies.get('guilded_mid'), 'hmac_signed_session': r.cookies.get('hmac_signed_session')})
     
-    def login_from_token(self, token: str):
+    def login_from_token(self, token: str, get_me: bool= False):
         self.session.cookies.set('hmac_signed_session', token)
+
+        if get_me:
+            self.get_me()
+    
+    def get_me(self):
+        resp = self.session.get(f'{self.base_url}/me?isLogin=false&v2=true').json()
+        self.user = resp['user']
+
+        return resp
 
     def send_message(self, channel_id: str, message: str, confirmed: bool= False, isSilent: bool= False, isPrivate: bool= False, repliesTo: list= []):
         r = self.session.post(f'{self.base_url}/channels/{channel_id}/messages', json={
@@ -179,3 +188,9 @@ class Guilded:
         #url = self.session.post('https://media.guilded.gg/media/upload?dynamicMediaTypeId=UserAvatar', files={'file': open(image_path, 'rb')}, headers={'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary20al5Fdtd69OqIRT'}).json()
         
         return self.session.post(f'{self.base_url}/users/me/profile/images', json={'imageUrl': url})
+    
+    def get_guild_member(self, guild_id: str):
+        return self.session.get(f'{self.base_url}/teams/{guild_id}/members').json()
+    
+    def open_dm_channel(self, user_id: str):
+        return self.session.post(f'{self.base_url}/users/{self.user["id"]}/channels', json={"users":[{"id": user_id}]}).json()
